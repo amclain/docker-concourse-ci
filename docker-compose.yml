@@ -4,9 +4,13 @@ services:
     build: ./docker/web
     ports:
       - "8080:8080"
+    volumes:
+      - "./keys:/var/concourse/keys/"
     links:
       - db
   worker:
     build: ./docker/worker
+    volumes:
+      - "./keys:/var/concourse/keys/"
   db:
     image: postgres:9.5
