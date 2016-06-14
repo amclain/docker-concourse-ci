@@ -13,5 +13,7 @@ services:
     privileged: true
     volumes:
       - "./keys:/var/concourse/keys/"
+    links:
+      - web
   db:
     image: postgres:9.5

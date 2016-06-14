@@ -18,6 +18,6 @@ CMD ./concourse_linux_amd64 web \
   --basic-auth-password mypass \
   --session-signing-key /var/concourse/keys/session_signing_key \
   --tsa-host-key /var/concourse/keys/host_key \
-  --tsa-authorized-keys /var/concourse/keys/worker_key.pub \
+  --tsa-authorized-keys /var/concourse/keys/authorized_worker_keys \
   --external-url http://localhost:8080 \
   --postgres-data-source postgres://postgres@db/postgres?sslmode=disable
