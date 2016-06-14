@@ -10,6 +10,7 @@ services:
       - db
   worker:
     build: ./docker/worker
+    privileged: true
     volumes:
       - "./keys:/var/concourse/keys/"
   db:
