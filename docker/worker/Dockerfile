@@ -10,14 +10,14 @@ RUN apt-get -qq update && \
 # Download concourse binary.
 RUN wget https://github.com/concourse/concourse/releases/download/v1.2.0/concourse_linux_amd64
 RUN chmod a+x concourse_linux_amd64
-RUN ln -sf ./concourse_linux_amd64 /usr/bin/concourse
 RUN mkdir -p /opt/concourse/worker
+
+ADD bootstrap.sh ./bootstrap.sh
+RUN chmod a+x ./bootstrap.sh
 
 VOLUME /var/concourse/keys
 
-CMD concourse worker \
-  --work-dir /opt/concourse/worker \
-  --tsa-host web \
-  --tsa-public-key /var/concourse/keys/host_key.pub \
-  --tsa-worker-private-key /var/concourse/keys/worker_key\
-  -- -dnsServer 8.8.8.8
+ENV TSA_HOST web
+ENV DNS_SERVER 8.8.8.8
+
+ENTRYPOINT ["./bootstrap.sh"]

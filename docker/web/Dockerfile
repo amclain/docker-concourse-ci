@@ -8,16 +8,16 @@ RUN apt-get -qq update && \
 # Download concourse binary.
 RUN wget https://github.com/concourse/concourse/releases/download/v1.2.0/concourse_linux_amd64
 RUN chmod a+x concourse_linux_amd64
-RUN ln -sf ./concourse_linux_amd64 /usr/bin/concourse
+
+ADD bootstrap.sh ./bootstrap.sh
+RUN chmod a+x ./bootstrap.sh
 
 EXPOSE 8080 2222
 VOLUME /var/concourse/keys
 
-CMD concourse web \
-  --basic-auth-username myuser \
-  --basic-auth-password mypass \
-  --session-signing-key /var/concourse/keys/session_signing_key \
-  --tsa-host-key /var/concourse/keys/host_key \
-  --tsa-authorized-keys /var/concourse/keys/authorized_worker_keys \
-  --external-url http://localhost:8080 \
-  --postgres-data-source postgres://postgres@db/postgres?sslmode=disable
+ENV USER myuser
+ENV PASSWORD mypass
+ENV EXTERNAL_URL http://localhost:8080
+ENV POSTGRES_DATA_SOURCE postgres://postgres@db/postgres?sslmode=disable
+
+ENTRYPOINT ["./bootstrap.sh"]
