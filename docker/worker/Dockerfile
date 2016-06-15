@@ -10,11 +10,12 @@ RUN apt-get -qq update && \
 # Download concourse binary.
 RUN wget https://github.com/concourse/concourse/releases/download/v1.2.0/concourse_linux_amd64
 RUN chmod a+x concourse_linux_amd64
+RUN ln -sf ./concourse_linux_amd64 /usr/bin/concourse
 RUN mkdir -p /opt/concourse/worker
 
 VOLUME /var/concourse/keys
 
-CMD ./concourse_linux_amd64 worker \
+CMD concourse worker \
   --work-dir /opt/concourse/worker \
   --tsa-host web \
   --tsa-public-key /var/concourse/keys/host_key.pub \

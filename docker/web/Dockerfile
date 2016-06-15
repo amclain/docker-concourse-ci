@@ -8,11 +8,12 @@ RUN apt-get -qq update && \
 # Download concourse binary.
 RUN wget https://github.com/concourse/concourse/releases/download/v1.2.0/concourse_linux_amd64
 RUN chmod a+x concourse_linux_amd64
+RUN ln -sf ./concourse_linux_amd64 /usr/bin/concourse
 
 EXPOSE 8080 2222
 VOLUME /var/concourse/keys
 
-CMD ./concourse_linux_amd64 web \
+CMD concourse web \
   --basic-auth-username myuser \
   --basic-auth-password mypass \
   --session-signing-key /var/concourse/keys/session_signing_key \
