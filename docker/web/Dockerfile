@@ -9,9 +9,8 @@ RUN apt-get -qq update && \
 RUN wget https://github.com/concourse/concourse/releases/download/v1.2.0/concourse_linux_amd64
 RUN chmod a+x concourse_linux_amd64
 
-# Generate keys.
-# RUN ssh-keygen -t rsa -b 4096 -f /var/concourse/keys/host_key -N ''
-# RUN ssh-keygen -t rsa -b 4096 -f /var/concourse/keys/session_signing_key -N ''
+EXPOSE 8080 2222
+VOLUME /var/concourse/keys
 
 CMD ./concourse_linux_amd64 web \
   --basic-auth-username myuser \
