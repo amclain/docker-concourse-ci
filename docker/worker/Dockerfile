@@ -21,4 +21,5 @@ CMD ./concourse_linux_amd64 worker \
   --work-dir /opt/concourse/worker \
   --tsa-host web \
   --tsa-public-key /var/concourse/keys/host_key.pub \
-  --tsa-worker-private-key /var/concourse/keys/worker_key
+  --tsa-worker-private-key /var/concourse/keys/worker_key\
+  -- -dnsServer 8.8.8.8
