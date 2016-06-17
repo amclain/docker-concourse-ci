@@ -35,6 +35,27 @@ from the internet.
 * Default user: `myuser`
 * Default password: `mypass`
 
+### Linode / Custom kernels
+
+Concourse CI seems to be picky about the kernel that it runs on; it can fail to
+start or have unpredicitable behavior when not using the distribution's kernel.
+You can check the version of your kernel with:
+
+```text
+uname -r
+```
+
+If you're using a [Linode](https://www.linode.com/) host you'll probably see
+something like `4.0.4-x86_64-linode57`, which means the server is running
+Linode's custom kernel. Follow Linode's guide for [running a
+distribution-supplied kernel](https://www.linode.com/docs/tools-reference/custom-kernels-distros/run-a-distribution-supplied-kernel-with-kvm)
+to update your kernel to be compatible with Concourse CI.
+
+>Note: At the time of this writing the Linode guide says to install
+`linux-image-virtual` from the package manager. DO NOT DO THIS, as it will
+install an older 3.x version that is incompatible with Docker. The package
+`linux-image-extra-4.4.0-24-generic` has been used with success.
+
 ### Generating the ssh keys
 
 Concourse requires several ssh keys for the web server and worker to be able
