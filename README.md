@@ -181,3 +181,48 @@ default password is `mypass`. These are also listed in
 overridden by setting new values for the environment variables using `-e`. See
 the [Postgres image documentation](https://hub.docker.com/_/postgres/) for
 information on customizing your database.
+
+## GitHub OAuth
+
+It is possible to run this container using OAuth instead of basic auth by
+manually configuring the container's entrypoint. This can be done on either
+the command line or in the `docker-compose.yml` file, depending on which method
+you are using. In this example we'll use a docker-compose file because it's
+easier to read.
+
+>See the [Concourse CI authentication guide](https://concourse.ci/authentication.html)
+for configuring your GitHub account.
+
+```yml
+version: "2"
+services:
+  web:
+    image: amclain/concourse-ci-web
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./keys:/var/concourse/keys/"
+    links:
+      - db
+    entrypoint:
+      "./concourse_linux_amd64 web
+      --github-auth-user yourname
+      --github-auth-client-id ${GITHUB_AUTH_CLIENT_ID}
+      --github-auth-client-secret ${GITHUB_AUTH_CLIENT_SECRET}
+      --session-signing-key /var/concourse/keys/session_signing_key
+      --tsa-host-key /var/concourse/keys/host_key
+      --tsa-authorized-keys /var/concourse/keys/authorized_worker_keys
+      --external-url ${EXTERNAL_URL}
+      --postgres-data-source postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?sslmode=disable"
+  db:
+    image: postgres:9.5
+    restart: unless-stopped
+    volumes:
+      - "./pgdata:/var/lib/postgresql/data/pgdata"
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+```
