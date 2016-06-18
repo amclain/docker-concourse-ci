@@ -35,6 +35,11 @@ from the internet.
 * Default user: `myuser`
 * Default password: `mypass`
 
+>Note: There is a known issue with Docker's file system that may cause the
+Concourse worker to consume an excessive amount of disk space when it's run
+inside of a container. This can be avoided by running the worker directly on
+the host. The web and postgres containers should not be affected by this issue.
+
 ### Linode / Custom kernels
 
 Concourse CI seems to be picky about the kernel that it runs on; it can fail to
