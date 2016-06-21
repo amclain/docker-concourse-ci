@@ -11,7 +11,7 @@ RUN apt-get -qq update && \
     apt-get -y install wget ssh
 
 # Download concourse binary.
-RUN wget https://github.com/concourse/concourse/releases/download/v1.2.0/concourse_linux_amd64
+RUN wget https://github.com/concourse/concourse/releases/download/v1.3.1/concourse_linux_amd64
 RUN chmod a+x concourse_linux_amd64
 # ------------------------------------------------------------------------------
 
