@@ -29,6 +29,7 @@ RUN chmod a+x ./bootstrap.sh
 VOLUME /var/concourse/keys
 
 ENV TSA_HOST web
+ENV TSA_PORT 2222
 ENV DNS_SERVER 8.8.8.8
 
 ENTRYPOINT ["./bootstrap.sh"]
